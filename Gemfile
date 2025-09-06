@@ -43,7 +43,7 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
-  gem 'sqlite3' 
+  # gem 'sqlite3' 
   gem 'dotenv-rails' 
 end
 
@@ -65,6 +65,5 @@ gem 'activestorage-cloudinary-service'
 
 # PostgreSQL → 本番用
 group :production do
-  gem 'pg'
 end
 gem 'pg'
