@@ -1,0 +1,91 @@
+<h1>GeekTwitter</h1>
+<h3>Tweet詳細</h3>
+<div class="tweet">
+  <p><%= @tweet.name %></p>
+  <p><%= @tweet.price %></p>
+  <p><%= @tweet.detail %></p>
+</div>
+
+<% @tweet.tags.each do |tag| %>
+    <span><%= tag.name %></span>
+<% end %>
+
+<div class="comment-wrapper">
+  <p>コメント一覧</p>
+  <% @comments.each do |c| %>
+    <div>
+      <h2>総合評価：
+      <span class="star-rating">
+        <span class="star-rating-front" style="width: <%= getPercent(c.overall) %>%;">★★★★★</span>
+        <span class="star-rating-back">★★★★★</span>
+      </span> 
+      </h2>
+    </div>
+
+    <!--- 総合評価の星の部分終わり------->
+
+    <!--- 授業レベルの星の部分 ------------>
+    <div>
+      <h2>授業レベル：
+      <span class="star-rating">
+        <span class="star-rating-front" style="width: <%= getPercent(c.level) %>%;">★★★★★</span>
+        <span class="star-rating-back">★★★★★</span>
+      </span>
+      </h2>
+    </div>
+    <div>
+      <%= c.user.email unless c.user.blank? %>
+      <br>
+      <%= c.content %>
+    </div>
+      <br>
+  <% end %>
+
+  <% if user_signed_in? %>
+    <%= form_with(model: [@tweet, @comment], local: true) do |f| %>
+      <h5>総合評価</h5>
+      <div class="post_form">
+        <%= f.radio_button :overall, 5 ,id: 'star1'%>
+        <label for="star1"><span class="text">最高</span>★</label>
+
+        <%= f.radio_button :overall, 4 ,id: 'star2'%>
+        <label for="star2"><span class="text">良い</span>★</label>
+
+        <%= f.radio_button :overall, 3 ,id: 'star3'%>
+        <label for="star3"><span class="text">普通</span>★</label>
+
+        <%= f.radio_button :overall, 2 ,id: 'star4'%>
+        <label for="star4"><span class="text">悪い</span>★</label>
+
+        <%= f.radio_button :overall, 1 ,id: 'star5'%>
+        <label for="star5"><span class="text">最悪</span>★</label>
+      </div>
+
+      <h5>授業レベル</h5>
+      <div class="post_form">
+        <%= f.radio_button :level,  5 ,id: 'star6'%>
+        <label for="star6"><span class="text">難しい</span>★</label>
+
+        <%= f.radio_button :level,  4 ,id: 'star7'%>
+        <label for="star7"><span class="text">やや難しい</span>★</label>
+
+        <%= f.radio_button :level, 3 ,id: 'star8'%>
+        <label for="star8"><span class="text">普通</span>★</label>
+
+        <%= f.radio_button :level , 2 ,id: 'star9'%>
+        <label for="star9"><span class="text">やや簡単</span>★</label>
+
+        <%= f.radio_button :level , 1 ,id: 'star10'%>
+        <label for="star10"><span class="text">簡単</span>★</label>
+      </div>
+      <%= f.text_area :content %>
+      <%= button_tag type: "submit" do %>
+        <i class="far fa-comments"></i> コメントする
+      <% end %>
+    <% end %>
+  <% end %>
+</div>
+
+<%= link_to "トップページに戻る", tweets_path %>
+<%= link_to "編集する", edit_tweet_path(@tweet.id) %>
+<%= link_to "一覧へ", tweet_list_path %>

@@ -1,0 +1,20 @@
+<h1>自分の題名</h1>
+<h3>一覧ページ</h3>
+<%= link_to "診断を始める", new_perfume_path, class: "link" %>
+<% if user_signed_in? %>
+  <% if current_user.admin? %>
+    <%= link_to "新規投稿へ", new_tweet_path %>
+  <% end %>
+<% end %>
+ <%= form_tag({controller:"tweets",action:"index"}, method: :get) do %>
+    <% Tag.all.each do |t| %>
+        <li><%= check_box :tag_ids, t.name %><%= t.name %></li>
+    <% end %>
+    <%= submit_tag '検索' %>
+  <% end %>
+  <%= form_tag({controller:"tweets",action:"index"}, method: :get) do %>
+    <%= text_field_tag :tag %>
+    <%= submit_tag 'タグを追加' %>
+ <% end %>
+     <%= link_to "一覧へ", tweet_list_path %>
+

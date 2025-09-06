@@ -1,0 +1,25 @@
+<div class="tweets-container">
+  <% @tweets.each do |t| %>
+    <div class="tweet">
+      <% if t.image.attached? %>
+          <%= image_tag t.image, size: '250x200'%>
+      <% end %>
+
+         <%= t.name %>
+         <% t.tags.each do |tag| %> 
+          <span><%= tag.name %></span>
+         <% end %>
+         <%= t.price %>
+         <%= t.detail %>
+         <%= link_to "詳細へ", tweet_path(t.id) %>
+ 
+       <% if user_signed_in? && current_user.admin? %>
+         <%= link_to "管理者用編集", edit_tweet_path(t.id) %>
+         <%= link_to "管理者用削除", tweet_path(t.id), method: :delete %> 
+    </div>
+       <% end %> 
+  <% end %>
+
+ <%= link_to "トップページに戻る", tweets_path %>
+
+ </div>
